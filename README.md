@@ -1,5 +1,3 @@
-#EZBuild
-
 EZBuild is a utility mod developed for OWML to simplify the process of creating and placing in-game objects and mechanics like buildings and trigger volumes.
 
 The goal of EZBuild is to allow modders to easily develop their mechanics or objects within Unity itself, and import them into the game with minimal effort.
@@ -22,4 +20,4 @@ Interaction volume support for newly created objects to make interactable and pi
 Animated characters and objects
 Rebuilt physics support for mass/gravity relationships to be used for dynamic systems created with NewHorizons like binary stars
 
-Documentation is coming very soon. I'm really tired.
+Documentation is coming very soon, I swear. I'm really tired.
