@@ -1,3 +1,5 @@
+Release 1.0.0: https://github.com/mrmeep321/EZBuild/releases/tag/v1.0.0
+
 EZBuild is a utility mod developed for OWML to simplify the process of creating and placing in-game objects and mechanics like buildings and trigger volumes.
 
 The goal of EZBuild is to allow modders to easily develop their mechanics or objects within Unity itself, and import them into the game with minimal effort.
