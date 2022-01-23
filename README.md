@@ -18,6 +18,7 @@ Manage object planetary position to allow for efficient placement of buildings o
 
 Suppport for planets created with New Horizons
 
+
 Roadmap:
 Manage object rotation intuitively and relative to other bodies to simplify angular stuff
 
@@ -28,6 +29,7 @@ Interaction volume support for newly created objects to make interactable and pi
 Animated characters and objects
 
 Rebuilt physics support for mass/gravity relationships to be used for dynamic systems created with NewHorizons like binary stars
+
 
 
 Documentation is coming very soon, I swear. I'm really tired.
