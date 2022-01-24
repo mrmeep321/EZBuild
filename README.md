@@ -1,155 +1,175 @@
-# Outer Wilds Mod Template
+<h1>EZBuild</h1>
 
-Use this project as a base for new Outer Wilds mods.
+Release 1.1.0: https://github.com/mrmeep321/EZBuild/releases/tag/v1.1.0</h1>
 
-<!-- TOC -->
+EZBuild is a utility mod developed for OWML to simplify the process of creating and placing in-game objects and mechanics like buildings and trigger volumes.
 
-- [Prerequisites](#prerequisites)
-- [How to use this template](#how-to-use-this-template)
-- [Editing manifest.json](#editing-manifestjson)
-  - [fileName](#filename)
-  - [author](#author)
-  - [name](#name)
-  - [uniqueName](#uniquename)
-  - [version](#version)
-  - [owmlVersion](#owmlversion)
-- [Editing ModTemplate.csproj.user](#editing-modtemplatecsprojuser)
-- [Updating OWML](#updating-owml)
-- [Building the mod](#building-the-mod)
-- [Releasing the mod](#releasing-the-mod)
-  - [Increasing the version](#increasing-the-version)
-  - [Pushing the code to GitHub](#pushing-the-code-to-github)
-  - [Creating a file for the release](#creating-a-file-for-the-release)
-  - [Uploading the release to GitHub](#uploading-the-release-to-github)
-  - [Adding your mod to the database](#adding-your-mod-to-the-database)
-- [Troubleshooting](#troubleshooting)
+The goal of EZBuild is to allow modders to easily develop their mechanics or objects within Unity itself, and import them into the game with minimal effort.
 
-<!-- /TOC -->
+EZBuild is still in early stages of development, but in the end, I want this mod to become a gateway for new modders to dip their feet into the water and get into modding without having to slog through too much Unity's massive and complex API base.
 
-## Prerequisites
+If you find any bugs (i'm sure there are a lot. v1.0.0 was developed in around 7 hours) or have any suggestions for features, please either @ me in the modding discord (https://discord.gg/GZvCmcsK), my handle is @mrmeep321, or submit an issue request.
 
-- An IDE that supports .NET, like Visual Studio ([download Visual Studio Community here](http://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community));
-- Outer Wilds Mod Manager (get it from the [Outer Wilds Mods](https://outerwildsmods.com/) website);
-- OWML installed in the Mod Manager;
-- A GitHub account (required for forking the repo and for releasing your mod to the public);
+## Current functionality
 
-## How to use this template
+Implement new custom objects into the game with Unity AssetBundles
 
-1. [Generate your repository from this template](https://github.com/Raicuparta/ow-mod-template/generate);
-2. Clone your new repository to your machine;
-3. Edit `ModTemplate/manifest.json` (see [Editing manifest.json](#editing-manifestjson) for more info);
-4. Edit `ModTemplate/ModTemplate.csproj.user` (see [Editing ModTemplate.csproj.user](#editing-modtemplatecsprojuser) for more info);
-5. Open `ModTemplate.sln` in Visual Studio (double clicking the `.sln` file should do the trick);
-6. Start writing your mod code in `ModTemplate/ModTemplate.cs` ([Read OWML's docs to learn what you can do](https://github.com/amazingalek/owml/wiki/For-modders)).
-7. [Build the mod](#building-the-mod);
-8. [Release the mod](#releasing-the-mod);
+Manage object hierarchies with these new objects
 
-## Editing manifest.json
+Manage object spatial position
 
-Use any text editor for editing this file (Notepad or whatever). The file `ModTemplate/manifest.json` should look like this:
+Manage object planetary position to allow for efficient placement of buildings on planets.
 
-```json
-{
-  "filename": "ModTemplate.dll",
-  "author": "AUTHOR",
-  "name": "MOD_NAME",
-  "uniqueName": "MOD_UNIQUE_NAME",
-  "version": "0.1.0",
-  "owmlVersion": "0.7.3"
-}
+Suppport for planets created with New Horizons
+
+
+## Roadmap
+Manage object rotation intuitively and relative to other bodies to simplify angular stuff
+
+Inbuilt full angular and translational velocity/acceleration/position control
+
+Interaction volume support for newly created objects to make interactable and pick-uppable objects
+
+Animated characters and objects
+
+Rebuilt physics support for mass/gravity relationships to be used for dynamic systems created with NewHorizons like binary stars
+
+
+# Documentation 
+
+## Installation
+EZBuild is utility mod, meaning it doesn't really do anything on its own. In order to make it do anything, you'll need to access its methods by referencing it as a library.
+1.  Install EZbuild using Outer Wilds Mod Loader
+2.  Open up your project directory, and open your .csproj.user file
+	- Inside of that file, drop the following block in right after your Output Path block.
+```
+<OuterWildsModDirectory>$(AppData)\OuterWildsModManager\OWML\Mods</OuterWildsModsDirectory>
 ```
 
-Edit each entry with the correct information for your mod:
-
-#### fileName
-
-Visual Studio will use the project's name for the dll, so this will usually be `[ProjectName].dll`. Since this template's project name is `ModTemplate`, `fileName` will be `ModTemplate.dll`. Remember that if you change your project's name, you'll have to change this entry too.
-
-#### author
-
-Your beautiful name.
-
-#### name
-
-The human-readable name of your mod, which will show in the Mod Manager.
-
-#### uniqueName
-
-The unique ID of your mod. Can be anything really, as long as it isn't already taken by another mod. You can search for your `uniqueName` in the [mod database](https://raw.githubusercontent.com/Raicuparta/ow-mod-db/master/database.json) if you wanna make sure it isn't already in use.
-
-#### version
-
-The version number of the mod. It's important that this version number is consistent with the versions used in GitHub releases. (see [Releasing the mod](#releasing-the-mod) for more info);
-
-#### owmlVersion
-
-OWML version used for your mod. Only used to show a warning to users using an OWML version different than this. Just make sure that the version here is the one installed in the NuGet packages (see [Updating OWML](#updating-owml) for more info);
+- It should look something like this afterwards
+![](https://i.imgur.com/TTm9Grw.png)
 
 
-## Editing ModTemplate.csproj.user
-
-Use any text editor for editing this file (Notepad or whatever). The file `ModTemplate/ModTemplate.csproj.user` should look like this:
-
+3. Still inside your project directory, open up your .csproj file
+  - Inside of that file, drop the following in right before the </Project> block
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectView>ProjectFiles</ProjectView>
-    <OutputPath>OUTPUT_PATH</OutputPath>
-  </PropertyGroup>
-</Project>
+<ItemGroup>
+<Reference Include="EZBuild"><HintPath>$(OuterWildsModsDirectory)\mrmeep321.EZBuild\EZBuild.dll</HintPath>
+<Private>False</Private>
+</Reference>
+</ItemGroup>
+  ```
+- After that, it should look something like this
+![](https://i.imgur.com/JXMcCVt.png)
+3. Now, restart Visual Studio, and check to make sure that EZBuild exists in your Dependencies now. You can check this using the Solution explorer, which you open by going to View -> Solution Explorer.
+- When in Solution Explorer, drop down your project, and you'll see the Dependencies tab. EZBuild should be under the assemblies tab in there. It will look like this if you did it right.
+
+![](https://i.imgur.com/VNhGC7F.png)
+
+3. EZBuild should automatically load up before your mod does since it's counted as a dependency.
+
+## Usage
+
+EZBuild has a few different class types to learn about before using. Each of them is generated using methods from the EZBuild class.
+
+### EZBuild
+
+EZBuild is the main class for the API, and contains most of the methods you'll use. EZBuild automatically detects and uses NewHorizons if it's installed. If it isn't installed, methods that use NewHorizons won't work (obviously). Now, This mod was made in a pretty limited amount of time, so I haven't really gotten around to actually disabling NH methods when NH isn't installed, so **please for the love of god don't try and generate objects on a New Horizons planet. Your computer will explode.** This will be fixed in a later release.
+
+#### Methods
+```C#
+EZBuild.inst.loadBundleAsset(String bundlePath, String prefabPath, String modelName);
 ```
+This method generates and returns a [Model](#model) based on the parameters which are as follows
+- bundlePath - The path of your AssetBundle
+- prefabPath - The path within your AssetBundle that points towards the prefab you want to use
+- modelName - your chosen name for this Model. At this point, this doesn't really do anything.
 
-Here you can replace `OUTPUT_PATH` with the path where your mod files will live.
+There is a method called loadModelAsset within EZBuild that can load an object into the game using just a .obj and .png texture, but using a raw .obj file is a very bad idea unless you want to manually assign a ton of Unity components in-script. I would highly recommend using AssetBundles. Instructions for making these are under the OWML docs, and I'll be making my own guide soon.
 
-Example: `C:\Users\rai\AppData\Roaming\OuterWildsModManager\OWML\Mods\Raicuparta.ModTemplate`.
+```C#
+EZBuild.inst.spawnObject(Model model, int x, int y, int z);
+EZBuild.inst.spawnObject(Model model, GameObject parent);
+EZBuild.inst.spawnObject(Model model, Transform parent);
+EZBuild.inst.spawnObject(Model model);
+```
+This method returns a [SpawnedObject](#spawnedobject), which we'll get into later. The creation of a SpawnedObject will generate a physical object in the world that uses the Model provided in the method. Providing an x, y, and z will set the starting position (See Coordinate systems to see how these work), and providing either a GameObject or Transform will set the default Parent (see [object hierarchies](#object-hierarchies) for more details).
 
-To make your mod automatically show up in the Outer Wilds Mod Manager every time you build it, follow the format `{MODS_DIRECTORY}/{MOD_UNIQUE_NAME}`.
+```C#
+EZBuild.inst.getNewHorizonsPlanet(String name, double radius);
+```
+This method returns a [Planet](#planet) object which stores the data for a New Horizons planet. The name parameter specifies the name given to it by the .json file, and the radius corresponds to the distance from the core to the "surface". I know there are multi-level planets, but this is effectively where you want (x, y, 0) to be on [the planetary mapping coordinates for your planet](#planetary-coordinates).
 
-To get your `{MODS_DIRECTORY}`, open the Outer Wilds Mod Manager and click the "Mods Directory" button on the top right of the "Mods" tab. The `{MOD_UNIQUE_NAME}` part of the path is just the `uniqueName` that you defined in your mod's `manifest.json`.
+```C#
+EZBuild.inst.getLoadedModel(String name)
+```
+If somehow you lose one of your models, EZBuild stores them dictionarily. Drop the model name specified in the loadBundleAsset method and it'll spit out the existing model.
 
-## Updating OWML
+## Model
+The Model class creates objects that store imported Unity asset data. These essentially just represent the imported objects that you create by loading AssetBundles. To create one of these, use the loadBundleAsset method or the loadModelAsset method if you're insane.
 
-It's important to keep OWML up to date in your project. In Visual Studio's Solution Explorer, right click "References" and select "Manage NuGet Packages...". In the "Installed" tab, find OWML and press the update button, if it's available (blue circle with a white arrow pointing up). After updating, make note of the new OWML version number. Update your `manifest.json` file with the latest OWML version (see [Editing manifest.json](#editing-manifestjson) for more info).
+## SpawnedObject
+SpawnObjects are essentiially a code hook that connects to a physically spawned object in game.
 
-## Building the mod
+Please don't try to construct these yourself unless you fully understand what's going on in the class, just use EZBuild.spawnObject to make one.
+```C#
+setCartesianPosition(x, y, z)
+```
+This method just sets the position of the object to (x, y, z) in [cartesian space](#cartesian-coordinates). 
 
-Before attempting to build the mod, make sure you've edited [ModTemplate.csproj.user](#editing-modtemplatecsprojuser), and [manifest.json](#editing-manifestjson) with the correct info. After that's done, go to Visual Studio, open the "Build" menu at the top, and select "Build Solution". If all goes well, your mod should immediately show up the the Mod Manager. You can now press "Start Game" in the manager, and the game should start with your mod enabled (as long as your mod has the checkbox set to enabled).
+```C#
+setPlanetaryPosition(x, y, z)
+```
+This method sets the object's position to (x, y, z) in [planetary mapping coordinate space](#planetary-coordinates) relative to its [parent](#parent) [Planet](#planet)
+```C#
+setParentPlanet(planet)
+```
+This method sets the object's [parent](#parent) planet.
+```C#
+setPositionToOrigin()
+```
+This is the same as calling setCartesianPosition(0, 0, 0)
+```C#
+setParent(object)
+setParent(transform)
+```
+This sets the object's parent to a GameObject or Transform (good for attaching object to characters or such.
 
-## Releasing the mod
+### Planet
+Planet objects represent a pre-existing planet or one generated by New Horizons.
 
-After you've written the code for your mod, you can release it and make it available for download.
+Constructor is as follows
+```C#
+new Planet(String nhPlanetName, float radius)
+new Planet(AstroObject.Name name)
+```
+Providing a string name and radius will generate a code hook for the New Horizons planet with that name and set it's sea level to the radius.
+Providing an AstroObject.Name will grab a pre-existing planet. Typing AstroObject.Name. will make visual studio pull up all available planets to grab.
+```C#
+attachSpawnedObject(SpawnedObject obj)
+```
+This method will make the parameterized SpawnedObject into a child of this planet. This method will take said object away from its parents, so be sure that you're ready to transfer it over to this planet when you call it.
+```C#
+getTransform()
+```
+Take a guess.
+<details>
+	<summary>No really, guess.</summary>
+	It returns the transform of the planet.
+</details>
 
-#### Increasing the version
+## Concepts
+This section is dedicated to helping you if you need help understanding the concepts as to how certain parts of this mod, and game work, like how Outer Wilds' coordinate systems work, or how my custom coordinate systems work, or how the physics of the game work. I'll be periodically updating this as time goes on.
+### Coordinate Systems
 
-Always increase your mod's version in [manifest.json](#editing-manifestjson) every time you publish a new release. For instance, change it from "0.1.0" to "0.2.0".
+There are a ton of different Coordinate systems, from cartesian, to polar, to spherical, and even some weird, multi-dimensional ones.
+I would highly recommend either taking a class in, or watching some KhanAcademy videos on how 3 or more dimensional space works, and then going and researching how Vectors in 3 dimensions act. It may seem tedious at first, but it will make understanding Outer Wilds' physics **much** easier.
 
-#### Pushing the code to GitHub
+#### Cartesian Coordinates
+Cartesian Coordinates are the simplest type of coordinates. A lot of time, these are called "rectangular coordinates" or "cubic coordinates", because they go along straight lines. These are the normal coordinates that you're used to, with an X, Y, and Z axes, and each coordinate of a point corresponds to displacement from zero along each axis.
 
-If you forked the ow-mod-template repository as per the initial instructions, you now have your own version of this repository in your GitHub account. Your GitHub username will displayed as the mod's author, and the description for the mod will be fetched from the repository description on Github. The `README.md` file will be your mod's readme, so update it with instructions on how to use your mod. There's a button in the Mod Manager that will point to your mod's readme once you publish it.
+#### Polar Coordinates
+These are a little less common, but are still incredibly useful. These are sometimes called "circular coordinates" or in 3 dimensions, "spherical coordinates". Polar coordinates are, in effect, just a direction and a magnitude (just like a vector). We usually express these coordinates in 2d as (m, Θ), where theta is the angle that the vector bounded by your point and the origin makes with the X axis, and m is the distance from the origin. In 3 dimensions, this gets a little more complex, being expressed as (m, Θ, Φ), with m being, again, the distance to the origin, but this time, theta is the angle made with the X axis inside of the XZ plane, and phi is the angle the line makes with the X axis in the XY plane.
 
-#### Creating a file for the release
-
-In the Mod Manager, find your mod, click the three dots menu button, and select "Show in explorer". You should see the directory to where your mod was built. Create a **zip** that includes all these files. This will be your release. Has to be **zip** specifically.
-
-#### Uploading the release to GitHub
-
-1. Go to the releases page of your repository (GitHub should show you a link to this page on the right side of the repository's page). Press "Draft a new release".
-2. In the "Tag version" field, insert the same mod version that you included in [manifest.json](#editing-manifestjson). It's very important that the release tag version is the same as the `version` field in the `manifest.json` inside the zip, otherwise your mod will always show as outdated in the Mod Manager.
-3. Release title and description are up to you.
-4. Add your zip to the release as a binary by drag & dropping the file to the release assets area (or just click "Attach binaries by etc etc" and select your file). Make sure you only upload one zip file, since anything after the first one will be ignored by the mod database / mod manager.
-5. Press "Publish release".
-
-#### Adding your mod to the database
-
-To make your mod show up in the Mod Manager and in [outerwildsmods.com](https://outerwildsmods.com), you need to add it to the database. [Click here to request for your mod to be added to the database](https://github.com/Raicuparta/ow-mod-db/issues/new?assignees=Raicuparta&labels=add-mod&template=add-mod.yml&title=%5BYour+mod+name+here%5D). Learn more about the Outer Wilds Mod Database in the [ow-mod-db repository](https://github.com/Raicuparta/ow-mod-db).
-
-## Troubleshooting
-
-A NuGet package called `OuterWildsGameLibs` is used to get references to the game code. If a game update has been released and this nuget hasn't been updated yet, you might need to reference the game libraries manually. [More information on the ow-game-libs repo](https://github.com/Raicuparta/ow-game-libs).
-
-If you open `ModTemplate/ModTemplate.csproj`, you'll find references to `$(OwmlDir)` and `$(ModUniqueName)`. The value of these variables is read from `ModTemplate/ModTemplate.csproj.user`.
-
-`$(OwmlDir)` and `$(ModUniqueName)` are used in the post-build events, to copy the built mod files (and static files like `manifest.json` and `default-config.json`) to the mod directory in `"$(OwmlDir)\Mods\$(ModUniqueName)"`. If you are having problems with post-build events, you can edit them manually in Visual Studio (double click Properties in Solution Explorer, select "Build Events").
-
-You'll also find references to `$(TargetPath)`, which is the path to where Visual Studio places your mod dll after building, and `$(ProjectDir)`, the path with your mod's Visual Studio project. These don't need to be defined manually, they always exist.
+#### Planetary Coordinates
+These coordinates are not something you'll see very often, but they're incredibly useful when we want to place an object on a relatively large spherical object in space. In effect, these work like latitude and longitude, with (0, 0) being placed on the north pole, and as you walk across the surface of the planet, the x axis goes from North-South, and the y axis goes from East-West. the Z axis is the relative vertical distance from the sea level of the planet. Thus, the north pole on the surface at sea level would be (0, 0, 0), and the south pole would be (πr, πr, 0). Methods in this mod that set planetary position also automatically cause your object to rotate to sit level on the ground.
