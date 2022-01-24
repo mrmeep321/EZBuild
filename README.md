@@ -1,6 +1,6 @@
 <h1>EZBuild</h1>
 
-Release 1.1.0: https://github.com/mrmeep321/EZBuild/releases/tag/v1.1.0</h1>
+Release 1.2.0: https://github.com/mrmeep321/EZBuild/releases/tag/v1.2.0
 
 EZBuild is a utility mod developed for OWML to simplify the process of creating and placing in-game objects and mechanics like buildings and trigger volumes.
 
@@ -134,6 +134,10 @@ setParent(object)
 setParent(transform)
 ```
 This sets the object's parent to a GameObject or Transform (good for attaching object to characters or such.
+```C#
+setEulerRotation(float pitch, float yaw, float roll)
+```
+Sets the object's rotation to the specified Euler angles
 
 If there's anything you want to do with the SpawnedObject that EZBuild can't do yet using the methods, call SpawnedObject.obj on your SpawnedObject, it'll return the GameObject so you can mess with it however you like
 
