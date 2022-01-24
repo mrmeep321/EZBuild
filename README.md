@@ -1,4 +1,8 @@
-Release 1.0.0: https://github.com/mrmeep321/EZBuild/releases/tag/v1.0.0
+<h1>EZBuild</h1>
+
+[Docs](#documentation)
+
+Release 1.0.0: https://github.com/mrmeep321/EZBuild/releases/tag/v1.0.0</h1>
 
 EZBuild is a utility mod developed for OWML to simplify the process of creating and placing in-game objects and mechanics like buildings and trigger volumes.
 
@@ -8,7 +12,7 @@ EZBuild is still in early stages of development, but in the end, I want this mod
 
 If you find any bugs (i'm sure there are a lot. v1.0.0 was developed in around 7 hours) or have any suggestions for features, please either @ me in the modding discord (https://discord.gg/GZvCmcsK), my handle is @mrmeep321, or submit an issue request.
 
-Current functionality:
+## Current functionality
 
 Implement new custom objects into the game with Unity AssetBundles
 
@@ -21,7 +25,7 @@ Manage object planetary position to allow for efficient placement of buildings o
 Suppport for planets created with New Horizons
 
 
-Roadmap:
+## Roadmap
 Manage object rotation intuitively and relative to other bodies to simplify angular stuff
 
 Inbuilt full angular and translational velocity/acceleration/position control
@@ -33,5 +37,6 @@ Animated characters and objects
 Rebuilt physics support for mass/gravity relationships to be used for dynamic systems created with NewHorizons like binary stars
 
 
+## Documentation 
 
-Documentation is coming very soon, I swear. I'm really tired.
+
