@@ -10,7 +10,7 @@ namespace EZbuild
     {
         private AstroObject planet;
         private GameObject nhPlanet;
-        public int radius;
+        public float radius;
 
         private static Dictionary<String, Planet> activeNHPlanets = new Dictionary<String, Planet>();
         private static Dictionary<AstroObject, Planet> activePlanets = new Dictionary<AstroObject, Planet>();
@@ -29,7 +29,7 @@ namespace EZbuild
             }
         }
 
-        public Planet(String NHPlanetName, int radius)
+        public Planet(String NHPlanetName, float radius)
         {
             if (!EZBuild.EZBuild.nhReady) EZBuild.EZBuild.inst.LoadQueue += () =>
              {
@@ -38,7 +38,7 @@ namespace EZbuild
             else ConstructorHelperB(NHPlanetName, radius);
         }
 
-        private void ConstructorHelperB(String NHPlanetName, int radius)
+        private void ConstructorHelperB(String NHPlanetName, float radius)
         {
             if (!activeNHPlanets.ContainsKey(NHPlanetName))
             {

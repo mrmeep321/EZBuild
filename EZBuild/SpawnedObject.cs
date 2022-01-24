@@ -16,7 +16,7 @@ namespace EZBuild
             this.obj = obj;
         }
 
-        public void setCartesianPosition(int x, int y, int z)
+        public void setCartesianPosition(float x, float y, float z)
         {
             obj.transform.position = new Vector3(x, y, z);
         }
@@ -30,18 +30,18 @@ namespace EZBuild
             else setPlanetaryPositionHelper(a, b, c);
         }
 
-        private void setPlanetaryPositionHelper(int a, int b, int c)
+        private void setPlanetaryPositionHelper(float a, float b, float c)
         {
             if (parentPlanet != null)
             {
-                int r = parentPlanet.radius;
-                double x = (r + c) * Math.Cos((a / r) + (Math.PI / 2)) * Math.Sin((b / r) + (Math.PI / 2));
-                double y = (r + c) * Math.Sin((a / r) + (Math.PI / 2)) * Math.Sin((b / r) + (Math.PI / 2));
-                double z = (r + c) * Math.Cos((b / r) + (Math.PI / 2));
+                float r = parentPlanet.radius;
+                float x = (r + c) * (float)Math.Cos((a / r) + ((float)Math.PI / 2)) * (float)Math.Sin((b / r) + ((float)Math.PI / 2));
+                float y = (r + c) * (float)Math.Sin((a / r) + ((float)Math.PI / 2)) * (float)Math.Sin((b / r) + ((float)Math.PI / 2));
+                float z = (r + c) * (float)Math.Cos((b / r) + ((float)Math.PI / 2));
 
                 this.obj.transform.localPosition = new Vector3((float)x, (float)y, (float)z);
                 //this.obj.transform.eulerAngles = new Vector3((float)((a / r) + (Math.PI / 2)), (float)((b / r) + (Math.PI / 2)), 0);
-                this.obj.transform.rotation = Quaternion.LookRotation(parentPlanet.GetTransform().position - this.obj.transform.position).normalized;
+                this.obj.transform.eulerAngles = Vector3.Cross(Quaternion.LookRotation(parentPlanet.GetTransform().position - this.obj.transform.position).eulerAngles, Vector3.right);
                 this.obj.SetActive(true);
             }
             else

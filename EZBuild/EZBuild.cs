@@ -135,7 +135,7 @@ namespace EZBuild
             return newobj;
         }
 
-        public Planet getNewHorizonsPlanet(String name)
+        public Planet getNewHorizonsPlanet(String name, double radius)
         {
             return new Planet(name, 90);
         }
