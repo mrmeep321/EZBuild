@@ -157,14 +157,14 @@ Take a guess.
 	<summary>No really, guess.</summary>
 	It returns the transform of the planet.
 </details>
-##Concepts
+## Concepts
 This section is dedicated to helping you if you need help understanding the concepts as to how certain parts of this mod, and game work, like how Outer Wilds' coordinate systems work, or how my custom coordinate systems work, or how the physics of the game work. I'll be periodically updating this as time goes on.
-###Coordinate Systems
+### Coordinate Systems
 There are a ton of different Coordinate systems, from cartesian, to polar, to spherical, and even some weird, multi-dimensional ones.
 I would highly recommend either taking a class in, or watching some KhanAcademy videos on how 3 or more dimensional space works, and then going and researching how Vectors in 3 dimensions act. It may seem tedious at first, but it will make understanding Outer Wilds' physics **much** easier.
-####Cartesian Coordinates
+#### Cartesian Coordinates
 Cartesian Coordinates are the simplest type of coordinates. A lot of time, these are called "rectangular coordinates" or "cubic coordinates", because they go along straight lines. These are the normal coordinates that you're used to, with an X, Y, and Z axes, and each coordinate of a point corresponds to displacement from zero along each axis.
-####Polar Coordinates
+#### Polar Coordinates
 These are a little less common, but are still incredibly useful. These are sometimes called "circular coordinates" or in 3 dimensions, "spherical coordinates". Polar coordinates are, in effect, just a direction and a magnitude (just like a vector). We usually express these coordinates in 2d as (m, Θ), where theta is the angle that the vector bounded by your point and the origin makes with the X axis, and m is the distance from the origin. In 3 dimensions, this gets a little more complex, being expressed as (m, Θ, Φ), with m being, again, the distance to the origin, but this time, theta is the angle made with the X axis inside of the XZ plane, and phi is the angle the line makes with the X axis in the XY plane.
-####Planetary Coordinates
+#### Planetary Coordinates
 These coordinates are not something you'll see very often, but they're incredibly useful when we want to place an object on a relatively large spherical object in space. In effect, these work like latitude and longitude, with (0, 0) being placed on the north pole, and as you walk across the surface of the planet, the x axis goes from North-South, and the y axis goes from East-West. the Z axis is the relative vertical distance from the sea level of the planet. Thus, the north pole on the surface at sea level would be (0, 0, 0), and the south pole would be (πr, πr, 0). Methods in this mod that set planetary position also automatically cause your object to rotate to sit level on the ground.
