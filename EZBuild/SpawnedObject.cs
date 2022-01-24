@@ -68,6 +68,11 @@ namespace EZBuild
             }
         }
 
+        public void setEulerRotation(float pitch, float yaw, float roll)
+        {
+            this.obj.transform.eulerAngles = new Vector3(pitch, yaw, roll);
+        }
+
         public void setParent(GameObject obj)
         {
             parent = this.obj.transform.parent = obj.transform;

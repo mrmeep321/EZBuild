@@ -84,7 +84,7 @@ namespace EZBuild
         public Model loadBundleAsset(String bundlePath, String prefabPath, String modelName)
         {
             var bundle = inst.helper.Assets.LoadBundle(bundlePath);
-            GameObject obj = LoadPrefab(bundle, prefabPath);
+            GameObject obj = bundle.LoadAsset<GameObject>(prefabPath);
             Model g = new Model(obj);
             dict.Add(modelName, g);
             return g;
@@ -143,38 +143,6 @@ namespace EZBuild
         public EZBuild getInstance()
         {
             return inst;
-        }
-
-        private static readonly Shader standardShader = Shader.Find("Standard");
-
-        private static GameObject LoadPrefab(AssetBundle bundle, string path)
-        {
-            var prefab = bundle.LoadAsset<GameObject>(path);
-
-            // Repair materials             
-            foreach (var renderer in prefab.GetComponentsInChildren<MeshRenderer>())
-            {
-                foreach (var mat in renderer.materials)
-                {
-                    mat.shader = standardShader;
-                    mat.renderQueue = 2000;
-                }
-            }
-            foreach (Transform child in prefab.transform)
-            {
-                foreach (var renderer in child.GetComponentsInChildren<MeshRenderer>())
-                {
-                    foreach (var mat in renderer.materials)
-                    {
-                        mat.shader = standardShader;
-                        mat.renderQueue = 2000;
-                    }
-                }
-            }
-
-            prefab.SetActive(false);
-
-            return prefab;
         }
     }
 }
