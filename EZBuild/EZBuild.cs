@@ -62,8 +62,6 @@ namespace EZBuild
 
             LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
             {
-                if (loadScene != OWScene.SolarSystem) return;
-                var playerBody = FindObjectOfType<PlayerBody>();
                 Thread t = new Thread(new ThreadStart(threader));
                 t.Start();
             };
