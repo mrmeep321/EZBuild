@@ -5,20 +5,33 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
 using EZbuild;
+using System.Collections.ObjectModel;
 
 namespace EZBuild
 {
     public class EZBuild : ModBehaviour
     {
+
+        //Anything that can be in another system or not currently loaded needs functionality to check if loaded and disable the object if it isn't loaded currently. This includes planets and SpawnedObjects
+
+        //Objects are properly spawning in-game but are not visible. They show up under unity with the proper coordinates, and can interact with players - but they do not appear visually
+
+
         public static bool hasNewHorizons;
-        private static INewHorizons nh;
+        public static INewHorizons nh;
         public static EZBuild inst;
         public static bool nhReady = false;
 
+        public static Collection<Planet> loadPlanetCollection = new Collection<Planet>();
+        public static Collection<SpawnedObject> loadSpawnedObjectCollection = new Collection<SpawnedObject>();
+
+        public delegate void loadEvent();
+        public event loadEvent loadQueue;
+        public event loadEvent tempQueue;
+
         public IModHelper helper;
 
-        public delegate void loadQueue();
-        public event loadQueue LoadQueue;
+        public OWScene scene;
 
         private static Dictionary<String, Model> dict = new Dictionary<String, Model>();
 
@@ -41,6 +54,8 @@ namespace EZBuild
 
             helper.Console.WriteLine($"My mod {nameof(EZBuild)} is loaded!", MessageType.Success);
 
+            
+
             try
             {
                 nh = helper.Interaction.GetModApi<INewHorizons>("xen.NewHorizons");
@@ -62,8 +77,9 @@ namespace EZBuild
 
             LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
             {
-                if (loadScene != OWScene.SolarSystem) return;
-                var playerBody = FindObjectOfType<PlayerBody>();
+                this.scene = loadScene;
+                ModHelper.Console.WriteLine(this.scene.ToString() + " is the scene");
+                ModHelper.Console.WriteLine(this.scene == OWScene.SolarSystem);
                 Thread t = new Thread(new ThreadStart(threader));
                 t.Start();
             };
@@ -75,7 +91,9 @@ namespace EZBuild
             Thread.Sleep(1000);
             nhReady = true;
             if(hasNewHorizons) inst.helper.Console.WriteLine("New Horizons is now fully loaded.");
-            LoadQueue.Invoke();
+            loadQueue.Invoke();
+            loadQueue = tempQueue;
+            tempQueue = null;
         }
 
         /*
@@ -104,45 +122,45 @@ namespace EZBuild
             return dict[name];
         }
 
-        public SpawnedObject spawnObject(Model model, int x, int y, int z)
+        public SpawnedObject spawnObject(Model model, int x, int y, int z, OWScene scene)
         {
-            GameObject obj = Instantiate(model.obj);
-            obj.transform.position = new Vector3(x, y, z);
-            SpawnedObject newobj = new SpawnedObject(obj);
+            SpawnedObject newobj = new SpawnedObject(model, x, y, z, scene);
             return newobj;
         }
 
         public SpawnedObject spawnObject(Model model, GameObject parent)
         {
-            GameObject obj = Instantiate(model.obj, parent.transform);
-            SpawnedObject newobj = new SpawnedObject(obj);
+            SpawnedObject newobj = new SpawnedObject(model, parent, scene);
             newobj.setParent(parent);
             return newobj;
         }
 
-        public SpawnedObject spawnObject(Model model, Transform parent)
+        public SpawnedObject spawnObject(Model model, Transform parent, OWScene scene)
         {
-            GameObject obj = Instantiate(model.obj, parent);
-            SpawnedObject newobj = new SpawnedObject(obj);
+            SpawnedObject newobj = new SpawnedObject(model, parent, scene);
             newobj.setParent(parent);
             return newobj;
         }
 
-        public SpawnedObject spawnObject(Model model)
+        public SpawnedObject spawnObject(Model model, OWScene scene = OWScene.SolarSystem)
         {
-            GameObject obj = Instantiate(model.obj);
-            SpawnedObject newobj = new SpawnedObject(obj);
+            SpawnedObject newobj = new SpawnedObject(model, scene);
             return newobj;
         }
 
         public Planet getNewHorizonsPlanet(String name, double radius)
         {
-            return new Planet(name, 90);
+            return new Planet(name, 90, OWScene.SolarSystem);
         }
 
         public EZBuild getInstance()
         {
             return inst;
+        }
+
+        public OWScene getScene()
+        {
+            return scene;
         }
     }
 }
