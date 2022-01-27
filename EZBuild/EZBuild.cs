@@ -5,6 +5,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
 using EZbuild;
+using System.Collections.ObjectModel;
+using UnityEngine.InputSystem;
 
 namespace EZBuild
 {
@@ -17,8 +19,10 @@ namespace EZBuild
 
         public IModHelper helper;
 
-        public delegate void loadQueue();
-        public event loadQueue LoadQueue;
+        public delegate void loadQueueType();
+        public event loadQueueType LoadQueue;
+
+        private static Collection<GameObject> coordinateTestRegister = new Collection<GameObject>();
 
         private static Dictionary<String, Model> dict = new Dictionary<String, Model>();
 
@@ -74,6 +78,40 @@ namespace EZBuild
             nhReady = true;
             if(hasNewHorizons) inst.helper.Console.WriteLine("New Horizons is now fully loaded.");
             LoadQueue.Invoke();
+            if (coordinateTestRegister.Count > 0)
+            {
+                Thread g = new Thread(() =>
+                {
+                    keyThread();
+                });
+                g.Start();
+            }
+        }
+
+        private void keyThread()
+        {
+            bool flag = false;
+            bool flag2 = false;
+            while(true)
+            {
+                if (Keyboard.current[Key.Semicolon].isPressed)
+                {
+                    if (!flag2)
+                    {
+                        flag = true;
+                        if (!flag)
+                        {
+                            foreach (GameObject obj in coordinateTestRegister)
+                            {
+                                ModHelper.Console.WriteLine("Local position of player in relation to " + obj.name + " is " + (GameObject.Find("Player_Body").transform.InverseTransformPoint(obj.transform.position).ToString()));
+                            }
+                            flag = true;
+                        }
+                        else flag = false;
+                    }
+                }
+                else flag2 = false;
+            }
         }
 
         /*
@@ -166,6 +204,8 @@ namespace EZBuild
                     {
                         mat.shader = standardShader;
                         mat.renderQueue = 2000;
+
+                        
                     }
                 }
             }
@@ -173,6 +213,16 @@ namespace EZBuild
             prefab.SetActive(false);
 
             return prefab;
+        }
+
+        public void registerTracker(GameObject obj)
+        {
+            coordinateTestRegister.Add(obj);
+        }
+
+        public void registerTracker(Planet p)
+        {
+            coordinateTestRegister.Add(p.getGameObject());
         }
     }
 }

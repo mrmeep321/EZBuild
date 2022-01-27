@@ -64,10 +64,20 @@ namespace EZbuild
             obj.setParent((planetFlag) ? nhPlanet.transform : planet.transform);
         }
 
+        public GameObject getGameObject()
+        {
+            return (planetFlag) ? nhPlanet : planet.gameObject;
+        }
+
 
         //Needs to be load-safe
         public Transform GetTransform()
         {
+            if(!EZBuild.EZBuild.nhReady)
+            {
+                EZBuild.EZBuild.inst.ModHelper.Console.WriteLine("New Horizons has not yet loaded. Please make sure that any getter functions or variables taken from an EZBuild class are called after NH loads, by subscribing them to the LoadQueue event in EZBuild.");
+                return null;
+            }
                 return (planetFlag) ? nhPlanet.transform : planet.transform;
         }
     }
