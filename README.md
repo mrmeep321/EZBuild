@@ -204,3 +204,7 @@ Once you export this model, change the Ground Size parameter of your planet file
 Next, import your new shell into Unity, and give it a Mesh Collider component so it won't collide. Use EZBuild to import this new sphere object into the game, make the sphere a parent of your New Horizons planet, and set its local position to (0,0,0). This will place it right on top of your tiny planetary core and it will act exactly like a planetary surface.
 
 With this new sphere object, you can re-open the blender file and dig tunnels and such inside of it. Gravity will still act on the center, so you may need to modify some gravity stuff on your own to get some certain gravitational effects, but these are on the roadmap if you'd like to wait.
+
+### Blender Models
+
+Some things to note about custom models: Please ensure there are no cameras or lights that come default with Blender. Outer Wilds will actually import these as well. Lights aren't too bad, but since Outer Wilds only expects there to be a singular camera, things get weird (It tries to display your screen through the Blender camera and freaks).
