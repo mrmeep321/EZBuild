@@ -183,13 +183,13 @@ These are a little less common, but are still incredibly useful. These are somet
 
 #### Planetary Coordinates
 These coordinates are not something you'll see very often, but they're incredibly useful when we want to place an object on a relatively large spherical object in space. In effect, these work like latitude and longitude, with (0, 0) being placed on the north pole, and as you walk across the surface of the planet, the x axis goes from North-South, and the y axis goes from East-West. the Z axis is the relative vertical distance from the sea level of the planet. Thus, the north pole on the surface at sea level would be (0, 0, 0), and the south pole would be (πr, πr, 0). Methods in this mod that set planetary position also automatically cause your object to rotate to sit level on the ground.
-###AssetBundles and prefabs
+### AssetBundles and prefabs
 
 AssetBundles are the primary method used by OWML and EZBuild for transporting files that you want to import into the game. I would recommend doing a little research into AssetBundles through Unity's wiki (https://learn.unity.com/tutorial/introduction-to-asset-bundles#6028bab6edbc2a750bf5b8a1). Anything you create in Unity can be turned into a prefab and put into Outer Wilds through these AssetBundles and the [SpawnedObject](#spawnedobject) class (except particles. I'll talk about those afterwards).
 
 You can use any 3D modeling format to import your models, but I would highly recommend using .fbx files since they are highly compatible with Blender, and natively have the capacity to hold UV maps, making texturing much easier than other formats.
 
-##Notes for texturing
+## Notes for texturing
 
 If for any reason you need to utilize an external file like an image for your textures, you need to ensure you include this texture in the AssetBundle in order to allow it to be read.
 
