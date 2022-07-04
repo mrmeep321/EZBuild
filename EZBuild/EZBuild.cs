@@ -74,44 +74,10 @@ namespace EZBuild
         private void threader()
         {
             var playerBody = FindObjectOfType<PlayerBody>();
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
             nhReady = true;
             if(hasNewHorizons) inst.helper.Console.WriteLine("New Horizons is now fully loaded.");
             LoadQueue.Invoke();
-            if (coordinateTestRegister.Count > 0)
-            {
-                Thread g = new Thread(() =>
-                {
-                    keyThread();
-                });
-                g.Start();
-            }
-        }
-
-        private void keyThread()
-        {
-            bool flag = false;
-            bool flag2 = false;
-            while(true)
-            {
-                if (Keyboard.current[Key.Semicolon].isPressed)
-                {
-                    if (!flag2)
-                    {
-                        flag = true;
-                        if (!flag)
-                        {
-                            foreach (GameObject obj in coordinateTestRegister)
-                            {
-                                ModHelper.Console.WriteLine("Local position of player in relation to " + obj.name + " is " + (GameObject.Find("Player_Body").transform.InverseTransformPoint(obj.transform.position).ToString()));
-                            }
-                            flag = true;
-                        }
-                        else flag = false;
-                    }
-                }
-                else flag2 = false;
-            }
         }
 
         /*
@@ -119,9 +85,19 @@ namespace EZBuild
          */
         public Model loadBundleAsset(String bundlePath, String prefabPath, String modelName)
         {
-            var bundle = inst.helper.Assets.LoadBundle(bundlePath);
-            GameObject obj = LoadPrefab(bundle, prefabPath);
-            Model g = new Model(obj);
+            Model g = null ;
+                if (Model.existingModels.ContainsKey(bundlePath))
+                {
+                    ModHelper.Console.WriteLine("Recalled " + bundlePath.ToString());
+                    GameObject obj = LoadPrefab(Model.existingModels[bundlePath], prefabPath);
+                    g = new Model(obj, bundlePath);
+                }
+                else
+                {
+                    AssetBundle assetBundle = ModHelper.Assets.LoadBundle(bundlePath);
+                    GameObject obj = LoadPrefab(assetBundle, prefabPath);
+                    g = new Model(obj, bundlePath, assetBundle);
+                }
             dict.Add(modelName, g);
             return g;
         }
@@ -130,7 +106,7 @@ namespace EZBuild
         public Model loadModelAsset(String modelPath, String texturePath, String modelName = "")
         {
             GameObject obj = inst.helper.Assets.Get3DObject(modelPath, texturePath);
-            Model g = new Model(obj);
+            Model g = new Model(obj, modelPath);
             dict.Add(modelName, g);
             return g;
         }
@@ -175,12 +151,17 @@ namespace EZBuild
         {
             return new Planet(name, 90);
         }
+        
 
         public EZBuild getInstance()
         {
             return inst;
         }
-
+        
+        //Method taken from NewHorizons - Blender/Unity shaders often break at startup for .fbx files, so this helps them to work.
+        //Without it, .fbx files almost always appear invisible.
+        //I'm really not 100% sure as to why this works, since it should just be re-applying the Standard shader, which fails to work when selected in Unity, but it does. Thanks for the code Xen
+        
         private static readonly Shader standardShader = Shader.Find("Standard");
 
         private static GameObject LoadPrefab(AssetBundle bundle, string path)
@@ -213,16 +194,6 @@ namespace EZBuild
             prefab.SetActive(false);
 
             return prefab;
-        }
-
-        public void registerTracker(GameObject obj)
-        {
-            coordinateTestRegister.Add(obj);
-        }
-
-        public void registerTracker(Planet p)
-        {
-            coordinateTestRegister.Add(p.getGameObject());
         }
     }
 }

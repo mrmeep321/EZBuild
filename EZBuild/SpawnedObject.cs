@@ -40,7 +40,6 @@ namespace EZBuild
                 float z = (r + c) * (float)Math.Cos((b / r) + ((float)Math.PI / 2));
 
                 this.obj.transform.localPosition = new Vector3((float)x, (float)y, (float)z);
-                //this.obj.transform.eulerAngles = new Vector3((float)((a / r) + (Math.PI / 2)), (float)((b / r) + (Math.PI / 2)), 0);
                 this.obj.transform.eulerAngles = Vector3.Cross(Quaternion.LookRotation(parentPlanet.GetTransform().position - this.obj.transform.position).eulerAngles, Vector3.right);
                 this.obj.SetActive(true);
             }
@@ -70,7 +69,7 @@ namespace EZBuild
 
         public void setParent(GameObject obj)
         {
-            parent = this.obj.transform.parent = obj.transform;
+            this.obj.transform.parent = obj.transform;
             obj.SetActive(true);
         }
 
