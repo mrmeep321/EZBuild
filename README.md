@@ -189,7 +189,7 @@ AssetBundles are the primary method used by OWML and EZBuild for transporting fi
 
 You can use any 3D modeling format to import your models, but I would highly recommend using .fbx files since they are highly compatible with Blender, and natively have the capacity to hold UV maps, making texturing much easier than other formats.
 
-## Notes for texturing
+### Notes for texturing
 
 If for any reason you need to utilize an external file like an image for your textures, you need to ensure you include this texture in the AssetBundle in order to allow it to be read.
 
